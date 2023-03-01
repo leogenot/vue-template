@@ -1,0 +1,54 @@
+/*=======================================
+=               CSS var()               =
+=======================================*/
+
+:root {
+    // Colors
+    @each $name, $hex in $colors {
+        --color-#{"" + $name}: #{$hex}; // '"" + ' required to compile since a color can be a value (ex: blue)
+    }
+
+    // Typography
+    @each $name, $families in $font-families {
+        --ff-#{$name}: #{$families};
+    }
+
+    @each $name, $size in $font-sizes {
+        --fs-#{$name}: #{$size};
+    }
+
+    // Grid
+    @each $bp, $gap in $grid-gaps {
+        $index: index($grid-gaps, $bp $gap);
+
+        @if $index == 1 {
+            @include make-variations("grid-gap", $gap, true);
+        } @else {
+            @include min($bp) {
+                --grid-gap: #{$gap};
+            }
+        }
+    }
+
+    --container-gap: #{$container-gap};
+    --grid-columns: #{$grid-columns};
+    --grid-column-width: calc(
+        (
+                (100vw - (#{$container-gap} * 2)) -
+                    (var(--grid-gap) * (var(--grid-columns) - 1))
+            ) / var(--grid-columns)
+    );
+    --grid-offset: calc(var(--grid-column-width) + var(--grid-gap));
+
+    @include max(sm) {
+        --grid-columns: 1;
+    }
+
+    // Builder
+    --section-gap: calc(var(--grid-gap) * 5);
+
+    // Layers
+    @each $name, $layer in $layers {
+        --z-#{$name}: #{$layer};
+    }
+}

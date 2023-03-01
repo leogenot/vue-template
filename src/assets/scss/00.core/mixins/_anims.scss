@@ -1,0 +1,137 @@
+/*=========================================
+=               Animations                =
+=========================================*/
+
+// DEFAULT (Opacity + translate)
+@mixin anim-reveal-default-hide {
+    opacity: 0;
+    transform: translateY(var(--a-out-translate-y, 2rem));
+    // transition: transform var(--a-out-duration, 0.4s)
+    //         var(--a-out-ease, #{$ease}) var(--a-out-delay, 0s),
+    //     opacity var(--a-out-duration, 0.4s) var(--a-out-ease, #{$ease})
+    //         var(--a-out-delay, 0s);
+    will-change: opacity, transform;
+}
+
+@mixin anim-reveal-default-show {
+    opacity: 1;
+    transform: translateY(var(--a-in-translate-y, 0));
+    transition: transform var(--a-in-duration, 0.8s) var(--a-in-ease, #{$ease})
+            var(--a-in-delay, 0s),
+        opacity var(--a-in-duration, 0.8s) var(--a-in-ease, #{$ease})
+            var(--a-in-delay, 0s);
+}
+
+@mixin anim-reveal-default($selectorHasViewDirective: false) {
+    @include anim-call("default", $selectorHasViewDirective);
+}
+
+// SCALE
+@mixin anim-reveal-scale-hide {
+    transform: scale(0) translateY(50%);
+    transform-origin: center center;
+    // transition: transform var(--a-out-duration, 0.4s)
+    //     var(--a-out-ease, #{$ease}) var(--a-out-delay, 0s);
+    will-change: transform;
+}
+
+@mixin anim-reveal-scale-show {
+    transform: scale(1) translateY(0);
+    transition: transform var(--a-in-duration, 0.7s) var(--a-in-ease, #{$ease})
+        var(--a-in-delay, 0s);
+}
+
+@mixin anim-reveal-scale($selectorHasViewDirective: false) {
+    @include anim-call("scale", $selectorHasViewDirective);
+}
+
+// MASK
+@mixin anim-reveal-mask-hide {
+    clip-path: polygon(var(--a-in-polygon));
+    // transition: clip-path var(--a-out-duration, 1s) var(--a-out-ease, #{$ease})
+    //     var(--a-out-delay, 0s);
+    will-change: clip-path;
+}
+
+@mixin anim-reveal-mask-show {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    transition: clip-path var(--a-in-duration, 1.5s) var(--a-in-ease, #{$ease})
+        var(--a-in-delay, 0s);
+}
+
+@mixin anim-reveal-mask($pos: "top", $selectorHasViewDirective: false) {
+    $polygon: 0% 0%, 100% 0%, 100% 0%, 0% calc(0% - var(--a-polygon-angle)); // Top
+    @if ($pos == "left") {
+        $polygon: 0% 0%, calc(0% - var(--a-polygon-angle)) 0%, 0% 100%, 0% 100%;
+    } @else if ($pos == "right") {
+        $polygon: 100% 0%, 100% 0%, 100% 100%,
+            calc(100% + var(--a-polygon-angle)) 100%;
+    } @else if ($pos == "bottom") {
+        $polygon: 0% 100%, 100% calc(100% + var(--a-polygon-angle)), 100% 100%,
+            0% 100%;
+    }
+
+    --a-polygon-angle: 20rem;
+    --a-in-polygon: #{$polygon};
+
+    @include anim-call("mask", $selectorHasViewDirective);
+}
+
+@mixin stagger-delay($i, $stagger-delay) {
+    @while $i > 0 {
+        &:nth-child(#{$i}) {
+            //transition-delay: $initial-delay + $stagger-delay * $i;
+            transition-delay: calc(
+                var(--initial-delay, 0s) + #{$stagger-delay * $i}s
+            );
+        }
+        $i: $i - 1;
+    }
+}
+
+/*=========================================
+=                Methods                  =
+=========================================*/
+
+@mixin anim-call($type, $selectorHasViewDirective: false) {
+    // Need to do this way because of child @at-root only applying first selector for some reason
+    @if ($selectorHasViewDirective) {
+        @at-root .js-reveal#{&} {
+            @include anim-call-map($type, "hide");
+        }
+        @at-root .js-reveal.is-visible#{&} {
+            @include anim-call-map($type, "show");
+        }
+    } @else {
+        .js-reveal & {
+            @include anim-call-map($type, "hide");
+        }
+        .js-reveal.is-visible & {
+            @include anim-call-map($type, "show");
+        }
+    }
+}
+
+@mixin anim-call-map($type, $display) {
+    @if $type == "default" {
+        @if $display == "show" {
+            @include anim-reveal-default-show;
+        } @else if $display == "hide" {
+            @include anim-reveal-default-hide;
+        }
+    }
+    @if $type == "scale" {
+        @if $display == "show" {
+            @include anim-reveal-scale-show;
+        } @else if $display == "hide" {
+            @include anim-reveal-scale-hide;
+        }
+    }
+    @if $type == "mask" {
+        @if $display == "show" {
+            @include anim-reveal-mask-show;
+        } @else if $display == "hide" {
+            @include anim-reveal-mask-hide;
+        }
+    }
+}

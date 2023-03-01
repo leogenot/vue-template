@@ -1,0 +1,68 @@
+/*=================================
+=            Headings             =
+=================================*/
+
+$main-headings: (
+    shared: (
+        font-family: var(--ff-heading),
+        line-height: 1,
+        font-weight: 400,
+        text-transform: uppercase,
+    ),
+    h1: (
+        // Responsiveness is done in Headline.vue
+        font-size: 165,
+    ),
+    h2: (
+        font-size: (
+            xs: 45,
+            sm: 45 fluid,
+            2xl: 100,
+        ),
+    ),
+    h3: (
+        font-size: (
+            xs: 22,
+            sm: 22 fluid,
+            2xl: 44,
+        ),
+    ),
+    h4: (
+        font-size: 22,
+    ),
+);
+
+$body-headings: (
+    shared: (
+        font-family: var(--ff-body),
+        line-height: 1,
+        font-weight: 400,
+    ),
+    h1: (
+        font-size: (
+            xs: 45,
+            sm: 45 fluid,
+            2xl: 60,
+        ),
+    ),
+    h2: (
+        font-size: (
+            xs: 35,
+            sm: 35 fluid,
+            2xl: 45,
+        ),
+    ),
+    h3: (
+        font-size: (
+            xs: 18,
+            sm: 18 fluid,
+            2xl: 25,
+        ),
+        line-height: 1.2,
+    ),
+    h4: (
+        font-size: 18,
+        font-weight: bold,
+        line-height: 1.2,
+    ),
+);

@@ -1,0 +1,75 @@
+/*======================================
+=             Containers               =
+======================================*/
+
+/**
+ * Container(s) styles generator
+ * @param  {string} $variant     What size variant to generate. 
+ *                               Use 'all' to generate default base styles and all other keys as modifier classes
+ * @return {void}
+ */
+@mixin container($variant: 'default') {
+    @if $variant == 'all' {
+
+        @each $name, $props in $containers {
+            $offset: nth($props, 1);
+            $max-width: null;
+            @if length($props) == 2 {
+                $max-width: nth($props, 2);
+            }
+    
+            @if $name == 'default' {
+                @include container-styles($offset, $max-width);
+            } @else {
+                &.-#{$name} {
+                    --container-column-offset: #{$offset};
+                    @if $max-width {
+                        --container-max-width: #{$max-width};
+                    }
+                }
+            }
+        }
+
+    } @else {
+
+        @if not map-has-key($containers, $variant) {
+            @error "No key found in $containers map for `#{$variant}`. Property omitted.";
+        }
+
+        $props: map-get($containers, $variant);
+        $offset: nth($props, 1);
+        $max-width: null;
+        @if length($props) == 2 {
+            $max-width: nth($props, 2);
+        }
+        @include container-styles($offset, $max-width);
+
+    }
+}
+
+@mixin container-styles($offset, $max-width) {
+    --container-max-width: #{$max-width};
+
+    --container-column-offset: #{$offset};
+    --container-columns: calc(#{$grid-columns} - (var(--container-column-offset) * 2) );
+    --container-spacing: calc( (var(--grid-column-width) + var(--grid-gap)) * var(--container-column-offset) );
+    --container-spacing-total: calc( var(--container-spacing) + #{$container-gap});
+
+    max-width: var(--container-max-width);
+    padding-left: var(--container-spacing-total);
+    padding-right: var(--container-spacing-total);
+    margin-left: auto;
+    margin-right: auto;
+
+    @include min(sm) {
+        --grid-columns: var(--container-columns);
+    }
+
+    @include between(md, 2xl) {
+        --container-spacing-total: calc(( var(--container-spacing) + #{$container-gap} ) / 2);
+    }
+
+    @include max(md) {
+        --container-spacing-total: var(--grid-gap);
+    }
+}

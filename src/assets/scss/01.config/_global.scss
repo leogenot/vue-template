@@ -1,0 +1,92 @@
+/*=======================================
+=             Directories               =
+=======================================*/
+
+$base-dir: "/static";
+
+$directories: (
+    font: "#{$base-dir}/fonts/",
+    img: "#{$base-dir}/images/",
+    icon: "#{$base-dir}/icons/",
+);
+
+/*=======================================
+=                Colors                 =
+=======================================*/
+
+$colors: (
+    black: #000000,
+    white: #ffffff,
+    dark: #121212,
+    smoke: #f5f3f1,
+    grey: #989693,
+    beige: #e8e3dd,
+    blue: #1acbff,
+    dark-blue: #00ade0,
+    yellow: #fdec5a,
+    gold: #a39d79,
+    pistachio: #dedb7b,
+    green: #00524e,
+    orange: #d87628,
+    red: #ff0000,
+);
+
+$font-color: var(--color-black);
+
+$selection-bg: var(--color-orange);
+$selection-color: var(--color-white);
+
+/*=======================================
+=              Typography               =
+=======================================*/
+
+$font-families: (
+    heading: (
+        "Durer",
+        "Helvetica Neue",
+        Arial,
+        sans-serif,
+    ),
+    body: (
+        //"NeutralFace",
+        "Helvetica Neue",
+        Arial,
+        sans-serif,
+    ),
+);
+
+$font-sizes: (
+    xsmall: 1em,
+    small: 1.2em,
+    regular: 1.6em,
+    medium: 1.8em,
+    large: 2.5em,
+    xl: 4.5em,
+    2xl: 6em,
+);
+
+$font-faces: (
+    // <name> <filename> <font-weight> <font-style>,
+    "Durer" "Durer" 400 normal,
+    "NeutralFace" "NeutralFaceRegular" 400 normal,
+    "NeutralFace" "NeutralFaceBold" 600 normal
+);
+
+// <html> Font-size
+$root-fs: 10px;
+
+// <body> font styles
+$dflt-font-family: var(--ff-body);
+$dflt-font-size: var(--fs-regular);
+$dflt-line-height: 1.4;
+
+/*=======================================
+=            Miscellaneous              =
+=======================================*/
+
+$ease: cubic-bezier(0.42, 0, 0.21, 1);
+$shadow: 0.5rem 0 4rem rgba(black, 0.08);
+
+// Borders
+$border-width: 1px;
+$border-color: var(--color-beige);

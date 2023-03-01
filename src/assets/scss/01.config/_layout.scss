@@ -1,0 +1,63 @@
+/*============================
+=        Breakpoints         =
+============================*/
+
+$breakpoints: (
+    xxs: 0,
+    xs: 395px,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    2xl: 1440px,
+    3xl: 1600px,
+    4xl: 1900px,
+);
+
+// Alternative breakpoints
+$screens: (
+    mobile: 0,
+    tablet: 740px,
+    laptop: 1200px,
+    desktop: 1600px,
+);
+
+/*============================
+=         Container          =
+============================*/
+
+$container-gap: 5rem;
+$containers: (
+    // <name>: <column-offset> <max-width>
+    default: 0.5 192rem,
+    full: 0 auto,
+    medium: 2,
+    small: 3
+);
+
+$spacer-gap: 2rem;
+
+$rte-gap: $dflt-line-height * 1em;
+
+/*============================
+=            Grid            =
+============================*/
+
+$grid-columns: 12;
+$grid-gaps: (
+    xs: 2rem,
+    md: 3rem,
+);
+
+/*=================================
+=            Z-indexes            =
+=================================*/
+
+$layers: (
+    loader: 200,
+    header: 300,
+    modal: 500,
+    dropdown: 100,
+    default: 1,
+    limbo: -1,
+);

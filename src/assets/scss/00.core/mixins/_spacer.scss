@@ -1,0 +1,28 @@
+/*======================================
+=               Spacer                 =
+======================================*/
+
+/**
+ * Align and space elements in a container
+ * @param  {string} $orientation     Orientation. Values: 'horizontal' or 'vertical'
+ * @param  {string} $alignment       Alignment of each element. Values: 'left' or 'center'
+ * @return {void}
+ */
+@mixin spacer($alignment: "left", $orientation: "vertical") {
+    @if $alignment == "center" {
+        --spacer-align: center;
+    }
+
+    @if $orientation == "vertical" {
+        --spacer-direction: column;
+    } @else {
+        --spacer-direction: row;
+    }
+
+    display: flex;
+    gap: var(--spacer-gap, #{$spacer-gap});
+    align-items: var(--spacer-align, flex-start);
+    justify-content: var(--spacer-justify, flex-start);
+    flex-direction: var(--spacer-direction, row);
+    flex-wrap: var(--spacer-wrap, wrap);
+}

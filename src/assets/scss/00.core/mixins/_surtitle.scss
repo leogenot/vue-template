@@ -1,0 +1,23 @@
+/*======================================
+=              Surtitle                =
+======================================*/
+
+@mixin surtitle {
+    --bullet-size: 0.44445em;
+    display: inline-grid;
+    gap: calc(var(--bullet-size) + 0.2em);
+    grid-template-columns: var(--bullet-size) auto;
+    font-size: var(--fs-medium);
+    font-weight: normal;
+    line-height: 1.25;
+
+    &:before {
+        content: "";
+        top: calc(var(--bullet-size) / 2 + 0.2em);
+        display: inline-block;
+        height: var(--bullet-size);
+        width: var(--bullet-size);
+        background: currentColor;
+        border-radius: var(--bullet-size);
+    }
+}

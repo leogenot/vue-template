@@ -1,0 +1,67 @@
+/*=======================================
+=            Global settings            =
+=======================================*/
+
+*,
+*:after,
+*:before {
+    position: relative;
+    outline: none;
+}
+
+html {
+    font-size: $root-fs;
+
+    @include min(2xl) {
+        $min-bp: breakpoint-min(2xl);
+        $ratio: strip-units(divide($root-fs, $min-bp)) * 100vw;
+        font-size: clamp($root-fs, $ratio, 15px);
+    }
+
+    // Better font rendering for mac
+    @include antialiased;
+
+    &.is-blocked {
+        overflow-y: hidden;
+        body {
+            overflow-y: hidden;
+        }
+    }
+}
+
+body {
+    background: var(--color-white);
+}
+
+// Selection
+::-moz-selection {
+    text-shadow: none;
+    color: $selection-color;
+    background: $selection-bg;
+}
+
+::selection {
+    text-shadow: none;
+    color: $selection-color;
+    background: $selection-bg;
+}
+
+/*=======================================
+=           Magnet directive            =
+=======================================*/
+
+.js-magnet-hit {
+    --hit-x: -0.2rem;
+    --hit-y: var(--hit-x);
+
+    z-index: 3;
+    position: absolute;
+    top: var(--hit-y);
+    right: var(--hit-x);
+    bottom: var(--hit-y);
+    left: var(--hit-x);
+    display: block;
+    width: auto;
+    height: auto;
+    border-radius: inherit;
+}

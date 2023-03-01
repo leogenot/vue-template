@@ -1,0 +1,101 @@
+/*======================================
+=               Border                 =
+======================================*/
+
+/**
+ * Use a pseudo element :before or :after as border
+ * @param  {string} $side          With side to display border. Values: 'top', 'right', 'bottom' or 'left'
+ * @param  {string} $pseudo        Which pseudo element to use. Values: 'before' or 'after' or 'direct'
+ *                                 Use 'direct', when you wnat styles directly on element
+ * @return {void}
+ */
+@mixin border(
+    $side: "left",
+    $pseudo: "before",
+    $parentHasViewDirective: false
+) {
+    @if $pseudo != "before" and $pseudo != "after" and $pseudo != "direct" {
+        @error "Wrong element parameter. Use: before, after or direct.";
+    }
+
+    $placement: (
+        top: (
+            top,
+            left,
+            right,
+        ),
+        right: (
+            top,
+            bottom,
+            right,
+        ),
+        bottom: (
+            bottom,
+            left,
+            right,
+        ),
+        left: (
+            top,
+            bottom,
+            left,
+        ),
+    );
+
+    @if not map-has-key($placement, $side) {
+        @error "Wrong side parameter. Use: top, right, bottom or left.";
+    }
+
+    $size: "width";
+    $scale: scaleX;
+    @if $side == "left" or $side == "right" {
+        $size: "height";
+        $scale: scaleY;
+    }
+
+    $selector: "";
+    @if $pseudo == "before" or $pseudo == "after" {
+        $selector: #{":" + $pseudo};
+    }
+
+    // Generate styles
+    &#{$selector} {
+        @if $pseudo == "before" or $pseudo == "after" {
+            content: "";
+        }
+
+        @if $size != "width" {
+            width: var(--border-width, #{$border-width});
+        }
+        @if $size != "height" {
+            height: var(--border-width, #{$border-width});
+        }
+
+        position: absolute;
+        $positions: map-get($placement, $side);
+        @each $pos in $positions {
+            #{$pos}: 0;
+        }
+
+        pointer-events: none;
+        background-color: var(--border-color, #{$border-color});
+        transform-origin: var(--border-transform-origin, left top);
+        transition: transform var(--border-transition-duration, 1.2s) $ease
+            var(--border-transition-delay, 0s);
+    }
+
+    @if ($parentHasViewDirective) {
+        @at-root .js-reveal#{&}:#{$pseudo} {
+            transform: #{$scale }(0);
+        }
+        @at-root .js-reveal.is-visible#{&}:#{$pseudo} {
+            transform: #{$scale }(1);
+        }
+    } @else {
+        .js-reveal &:#{$pseudo} {
+            transform: #{$scale }(0);
+        }
+        .js-reveal.is-visible &:#{$pseudo} {
+            transform: #{$scale }(1);
+        }
+    }
+}
