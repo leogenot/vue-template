@@ -8,11 +8,15 @@
     <the-loader></the-loader>
     <the-header class="l-base__header" />
 
-    <main class="l-main" ref="main">
-      <the-content ref="content" />
-      <the-footer></the-footer>
-    </main>
-    <the-modal />
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <main class="l-main" ref="main">
+          <the-content ref="content" />
+          <the-footer></the-footer>
+        </main>
+        <the-modal />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -135,14 +139,33 @@ export default defineComponent({
     ////////////////////////////////
     //       END RESIZE
     ////////////////////////////////
-
+    const main = ref(null);
     const wrapper = ref(null);
     const content = ref(null);
 
-    /* const lenis = new Lenis({
-      wrapper: main.value, // element which has overflow
-      content: content.value, // usually wrapper's direct child
-    }); */
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
+      direction: "vertical", // vertical, horizontal
+      gestureDirection: "vertical", // vertical, horizontal, both
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    //get scroll value
+    lenis.on("scroll", ({ scroll, limit, velocity, direction, progress }) => {
+      console.log({ scroll, limit, velocity, direction, progress });
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
 
     onMounted(() => {
       window.addEventListener("resize", onResize);
@@ -168,6 +191,7 @@ export default defineComponent({
       isScrollingUp,
       wrapper,
       content,
+      main,
     };
   },
 });
