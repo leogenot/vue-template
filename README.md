@@ -1,6 +1,5 @@
 # Vue3 starter kit template
 
-https://tubular-kulfi-2c838f.netlify.app
 
 ## Installation
 ```
